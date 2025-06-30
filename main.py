@@ -5,6 +5,7 @@ import tkinter as tk
 from pathlib import Path
 from tkinter import filedialog, messagebox
 import logging
+ 
 
 import pandas as pd
 
@@ -26,6 +27,7 @@ class App:
         self.root.title("Extrator de Faturas")
         logging.debug("Aplicacao iniciada")
 
+
         btn_select = tk.Button(root, text="Selecionar PDF", command=self.select_pdf)
         btn_select.pack(pady=10)
 
@@ -45,6 +47,7 @@ class App:
             self.lbl_file.config(text=str(self.pdf_path))
             logging.debug("PDF selecionado: %s", self.pdf_path)
 
+
     def export_csv(self) -> None:
         """Process the selected PDF and generate a CSV file."""
         if not self.pdf_path:
@@ -53,6 +56,7 @@ class App:
             return
 
         logging.debug("Detectando parser para %s", self.pdf_path)
+
         parser = self.detect_parser(self.pdf_path)
         if not parser:
             messagebox.showerror(
@@ -64,6 +68,7 @@ class App:
         logging.debug("Iniciando parse do PDF")
         df = parser(self.pdf_path)
         logging.debug("Total de transacoes extraidas: %d", len(df))
+
         if df.empty:
             messagebox.showerror(
                 "Erro", "Nenhuma transação encontrada no PDF"
@@ -73,6 +78,7 @@ class App:
 
         csv_path = save_to_csv(df, self.pdf_path)
         logging.debug("CSV salvo em %s", csv_path)
+
         messagebox.showinfo("Sucesso", f"CSV gerado em {csv_path}")
 
     @staticmethod
@@ -87,6 +93,7 @@ class App:
 
 def main() -> None:
     logging.debug("Executando main")
+
     root = tk.Tk()
     app = App(root)
     root.mainloop()
