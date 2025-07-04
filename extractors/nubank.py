@@ -34,7 +34,7 @@ def parse_pdf(path: Path) -> pd.DataFrame:
     in_section = False
     for page in doc:
         raw = page.get_text()
-        logging.debug("Pagina %d texto bruto: %s", page.number + 1, raw)
+        logging.debug("Pagina %d texto bruto (sanitized): %.100s", page.number + 1, raw.replace('\n', ' ')[:100])
         for line in raw.splitlines():
             clean = normalize_text(line)
             if "TRANSAÇÕES DE" in clean.upper():
